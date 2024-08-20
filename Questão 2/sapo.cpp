@@ -22,6 +22,8 @@ private:
     int qntEmpates;
     int totalPulos;
     int distanciaPulo;
+    bool pularDuasVezes;
+    bool pernasMetalicas;
 
 public:
     static int distanciaTotalCorrida; 
@@ -29,7 +31,7 @@ public:
     Sapo(string nome, string color, int id, int maxPulo) 
         : nome(nome), cor(color), identificacao(id), distancia(0), distanciaTotal(0),
           qntPulos(0), qntProvas(0), qntVitorias(0), qntDerrotas(0),
-          qntEmpates(0), totalPulos(0), distanciaPulo(maxPulo) 
+          qntEmpates(0), totalPulos(0), distanciaPulo(maxPulo), pularDuasVezes(false), pernasMetalicas(false) 
     {}
 
     string getNome()const { return nome; }
@@ -43,6 +45,8 @@ public:
     int getEmpates()const { return qntEmpates; }
     int getTotalPulos()const { return totalPulos; }
     int getDistanciaPulo()const { return distanciaPulo; }
+    bool getPularDuasVezes() const { return pularDuasVezes; }
+    bool getPernasMetalicas() const { return pernasMetalicas; }
 
     void setNome(string novoNome) { nome = novoNome; }
     void setDistanciaTotal(int distancia) { distanciaTotal = distancia; }
@@ -54,6 +58,10 @@ public:
     void setEmpates(int empates) { qntEmpates = empates; }
     void setTotalPulos(int pulos) { totalPulos = pulos; }
     void setDistanciaPulo(int maxPulo) { distanciaPulo = maxPulo; }
+    void setPularDuasVezes(bool ativar) { pularDuasVezes = ativar; }
+    void setPernasMetalicas(bool ativar) { pernasMetalicas = ativar; }
+
+
 
     static int definirCategoriaPeso(string categoriaPeso) {
         int maxPulo;
@@ -64,7 +72,7 @@ public:
         } else if (categoriaPeso == "Pesado") {
             maxPulo = 10;
         } else {
-            cout << "Erro na definição da categoria! Definindo como Medio." << endl;
+            cout << "Erro na definicao da categoria! Definindo como Medio." << endl;
             categoriaPeso = "Medio";
             maxPulo = 12;
         }
@@ -76,7 +84,16 @@ public:
         distanciaTotal += pulo;
         qntPulos++;
         totalPulos++;
+
+        if (pularDuasVezes) {
+            // Se a habilidade estiver ativa, o sapo pula novamente
+            pulo = rand() % distanciaPulo + 1;
+            distanciaTotal += pulo;
+            qntPulos++;
+            totalPulos++;
+        }
     }
+
 
     void reset() {
         distancia= 0;
@@ -120,12 +137,12 @@ void customizarSapo(vector<Sapo>& sapos) {
     for (auto& sapo : sapos) {
         if (sapo.getID() == id) {
             int opcao;
-            cout << "Escolha uma opção para customizar o sapo:" << endl;
+            cout << "Escolha uma opcao para customizar o sapo:" << endl;
             cout << "1 - Alterar o nome do sapo" << endl;
             cout << "2 - Alterar a cor do sapo" << endl;
-            cout << "3 - Adicionar Acelerador de Ritmo: O sapo pula duas vezes por vez, mas perde 5 de distância de pulo máxima!" << endl;
-            cout << "4 - Adicionar Pernas Metálicas: +2 na distância de pulo máxima!" << endl;
-            cout << "Digite sua opção: ";
+            cout << "3 - Adicionar Acelerador de Ritmo: O sapo pula duas vezes por vez, mas perde 5 de MaxPulo!" << endl;
+            cout << "4 - Adicionar Pernas Metalicas: +2 em MaxPulo!" << endl;
+            cout << "Digite sua opcao: ";
             cin >> opcao;
 
             switch (opcao) {
@@ -144,30 +161,41 @@ void customizarSapo(vector<Sapo>& sapos) {
                     break;
                 }
                 case 3: {
-                    int novoMaxPulo = sapo.getDistanciaPulo() - 5;
-                    if (novoMaxPulo < 0) novoMaxPulo = 0; 
-                    sapo.setDistanciaPulo(novoMaxPulo);
-                    cout << "Sapo agora pode pular duas vezes, mas o maxPulo foi reduzido em 5." << endl;
+                    if (sapo.getPularDuasVezes()) {
+                        cout << "Sapo ja possui essa modificacao" << endl;
+                    } else {
+                        int novoMaxPulo = sapo.getDistanciaPulo() - 5;
+                        if (novoMaxPulo < 0) novoMaxPulo = 0;
+                        sapo.setDistanciaPulo(novoMaxPulo);
+                        sapo.setPularDuasVezes(true);
+                        cout << "Sapo agora pode pular duas vezes, mas o MaxPulo foi reduzido em 5." << endl;
+                    }
                     break;
                 }
                 case 4: {
-                    int novoMaxPulo = sapo.getDistanciaPulo() + 2;
-                    sapo.setDistanciaPulo(novoMaxPulo);
-                    cout << "MaxPulo do sapo foi aumentado em 2." << endl;
+                    if (sapo.getPernasMetalicas()) {
+                        cout << "Sapo ja possui essa modificacao" << endl;
+                    } else {
+                        int novoMaxPulo = sapo.getDistanciaPulo() + 2;
+                        sapo.setDistanciaPulo(novoMaxPulo);
+                        sapo.setPernasMetalicas(true);
+                        cout << "MaxPulo do sapo foi aumentado em 2." << endl;
+                    }
                     break;
                 }
                 default:
-                    cout << "Opção inválida!" << endl;
+                    cout << "Opcao invalida!" << endl;
                     break;
             }
+            return; 
         }
     }
-    cout << "Sapo com ID " << id << " não encontrado." << endl;
+    cout << "Sapo com ID " << id << " nao encontrado." << endl;
 }
 
 void verificarPlacar(const vector<Sapo>& sapos) {
     if (sapos.empty()) {
-        cout << "Erro: Não há sapos registrados para verificar o placar." << endl;
+        cout << "Erro: Nao ha sapos registrados para verificar o placar." << endl;
         return;
     }
     vector<Sapo> saposOrdenados = sapos;
@@ -196,7 +224,7 @@ void verificarPlacar(const vector<Sapo>& sapos) {
 
 void verificarSapo(const vector<Sapo>& sapos) {
     if (sapos.empty()) {
-        cout << "Erro: Não há sapos registrados para verificar." << endl;
+        cout << "Erro: Nao ha sapos registrados para verificar." << endl;
         return;
     }
 
@@ -206,19 +234,72 @@ void verificarSapo(const vector<Sapo>& sapos) {
 
     for (const auto& sapo : sapos) {
         if (sapo.getID() == id) {
-            cout << "Informações do sapo com ID " << id << ":" << endl;
+            cout << "Informacoes do sapo com ID " << id << ":" << endl;
             cout << "Nome: " << sapo.getNome() << endl;
             cout << "Cor: " << sapo.getCor() << endl;
-            cout << "Distância Total Percorrida: " << sapo.getDistanciaTotal() << endl;
+            cout << "Distancia Total Percorrida: " << sapo.getDistanciaTotal() << endl;
             cout << "Quantidade de Provas: " << sapo.getProvas() << endl;
-            cout << "Quantidade de Vitórias: " << sapo.getVitorias() << endl;
+            cout << "Quantidade de Vitorias: " << sapo.getVitorias() << endl;
             cout << "Quantidade de Derrotas: " << sapo.getDerrotas() << endl;
             cout << "Quantidade de Empates: " << sapo.getEmpates() << endl;
             cout << "Total de Pulos: " << sapo.getTotalPulos() << endl;
-            cout << "Distância Máxima de Pulo: " << sapo.getDistanciaPulo() << endl;
+            cout << "MaxPulo: " << sapo.getDistanciaPulo() << endl;
             return;
         }
     }
 
-    cout << "Sapo com ID " << id << " não encontrado." << endl;
+    cout << "Sapo com ID " << id << " nao encontrado." << endl;
+}
+
+void exibirPercurso(const vector<Sapo>& sapos) {
+    for (const auto& sapo : sapos) {
+        int posicao = sapo.getDistanciaTotal() * 10 / Sapo::distanciaTotalCorrida;
+        cout << string(posicao, '-') << "o" << string(10 - posicao, '-') << "|" << endl;
+    }
+    cout << endl;
+}
+
+void simularCorrida(vector<Sapo>& sapos) {
+    if (sapos.empty()) {
+        cout << "Erro: Nao ha sapos registrados para realizar a corrida." << endl;
+        return;
+    }
+
+    bool corridaEmAndamento = true;
+    vector<Sapo*> vencedores;
+
+    cout << "A corrida comecou!" << endl;
+    while (corridaEmAndamento) {
+        for (auto& sapo : sapos) {
+            sapo.pular();
+            if (sapo.getDistanciaTotal() >= Sapo::distanciaTotalCorrida) {
+                vencedores.push_back(&sapo);
+                corridaEmAndamento = false;
+            }
+        }
+        exibirPercurso(sapos); 
+        cout << "--------------------" << endl;
+    }
+
+    if (!vencedores.empty()) {
+        cout << "Temos um vencedor!" << endl;
+        Sapo* vencedor = vencedores[0];
+        for (auto& sapo : sapos) {
+            if (sapo.getDistanciaTotal() >= Sapo::distanciaTotalCorrida) {
+                if (&sapo == vencedor) {
+                    sapo.vitoria();
+                    cout << "Sapo " << sapo.getNome() << " venceu a corrida!" << endl;
+                } else {
+                    sapo.empates();
+                    cout << "Sapo " << sapo.getNome() << " empatou!" << endl;
+                }
+            } else {
+                sapo.derrota();
+                cout << "Sapo " << sapo.getNome() << " foi derrotado." << endl;
+            }
+            sapo.reset();
+        }
+    }
+
+    cout << "A corrida terminou!" << endl;
 }

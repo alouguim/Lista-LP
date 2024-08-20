@@ -1,9 +1,1 @@
-Nome: Alek, Cor: verde, ID: 2, Max Pulo: 12
-Nome: Gustavo, Cor: azul, ID: 2, Max Pulo: 12
-Nome: alek, Cor: verde, ID: 2, Max Pulo: 12
-Nome: gustavo, Cor: verde, ID: 2, Max Pulo: 15
-Nome: lek, Cor: preto, ID: 2, Max Pulo: 12
-Nome: gustavo, Cor: marrom, ID: 2, Max Pulo: 12
-Nome: Alek, Cor: preto, ID: 1, Max Pulo: 15
-Nome: Gustavo, Cor: Verde, ID: 2, Max Pulo: 15
-Nome: Alek, Cor: Verde, ID: 1, Max Pulo: 15
+ALek,Verde,1,0,0,0,0,0,0,0,15

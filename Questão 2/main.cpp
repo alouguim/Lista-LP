@@ -13,16 +13,13 @@ int main(){
     cout << "== Bem vindo ao gerenciador de corrida de sapos! ==\n";
     do{
         cout << "-----ESCOLHA UMA OPCAO-----\n";
-        cout << "1 - Registrar novo sapo!\n";
+        cout << "1 - Registrar novo sapo\n";
         cout << "2 - Customizar sapo\n";
         cout << "3 - Verificar placar\n";
         cout << "4 - Simular corrida\n";
         cout << "5 - Verificar sapo\n";
         cout << "6 - Sair\n";
         cin >> escolha;
-        if (escolha < 1 || escolha > 6){
-            cout << ("Opcao invalida!\n");
-        }
 
         switch (escolha){
         case 1:
@@ -35,13 +32,16 @@ int main(){
             verificarPlacar(sapos);
             break;
         case 4:
-            //simularCorrida(sapos);
-            cout << "ainda não implementado";
+            simularCorrida(sapos);
+            break;
         case 5:
             verificarSapo(sapos);
             break;
         case 6:
             cout << "Saindo...";
+            break;
+        default:
+            cout << "Opcao invalida!\n";
             break;
         }
     } while (escolha != 6);
