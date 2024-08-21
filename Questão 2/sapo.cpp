@@ -224,7 +224,7 @@ void verificarPlacar(const vector<Sapo>& sapos) {
 
 void verificarSapo(const vector<Sapo>& sapos) {
     if (sapos.empty()) {
-        cout << "Erro: Nao ha sapos registrados para verificar." << endl;
+        cout << "Erro: Não há sapos registrados para verificar." << endl;
         return;
     }
 
@@ -234,21 +234,30 @@ void verificarSapo(const vector<Sapo>& sapos) {
 
     for (const auto& sapo : sapos) {
         if (sapo.getID() == id) {
-            cout << "Informacoes do sapo com ID " << id << ":" << endl;
-            cout << "Nome: " << sapo.getNome() << endl;
-            cout << "Cor: " << sapo.getCor() << endl;
-            cout << "Distancia Total Percorrida: " << sapo.getDistanciaTotal() << endl;
-            cout << "Quantidade de Provas: " << sapo.getProvas() << endl;
-            cout << "Quantidade de Vitorias: " << sapo.getVitorias() << endl;
-            cout << "Quantidade de Derrotas: " << sapo.getDerrotas() << endl;
-            cout << "Quantidade de Empates: " << sapo.getEmpates() << endl;
-            cout << "Total de Pulos: " << sapo.getTotalPulos() << endl;
-            cout << "MaxPulo: " << sapo.getDistanciaPulo() << endl;
+            cout << "Informaçoes do sapo com ID " << id << ":" << endl;
+            cout << "| " << left << setw(20) << "Nome" 
+                 << "| " << setw(20) << sapo.getNome() << " |" << endl;
+            cout << "| " << setw(20) << "Cor"
+                 << "| " << setw(20) << sapo.getCor() << " |" << endl;
+            cout << "| " << setw(20) << "Distancia Total"
+                 << "| " << setw(20) << (to_string(sapo.getDistanciaTotal()) + " centimetros") << " |" << endl;
+            cout << "| " << setw(20) << "Quantidade de Provas"
+                 << "| " << setw(20) << sapo.getProvas() << " |" << endl;
+            cout << "| " << setw(20) << "Vitorias"
+                 << "| " << setw(20) << sapo.getVitorias() << " |" << endl;
+            cout << "| " << setw(20) << "Derrotas"
+                 << "| " << setw(20) << sapo.getDerrotas() << " |" << endl;
+            cout << "| " << setw(20) << "Empates"
+                 << "| " << setw(20) << sapo.getEmpates() << " |" << endl;
+            cout << "| " << setw(20) << "Total de Pulos"
+                 << "| " << setw(20) << sapo.getTotalPulos() << " |" << endl;
+            cout << "| " << setw(20) << "MaxPulo"
+                 << "| " << setw(20) << (to_string(sapo.getDistanciaPulo()) + " centimetros") << " |" << endl;
             return;
         }
     }
 
-    cout << "Sapo com ID " << id << " nao encontrado." << endl;
+    cout << "Sapo com ID " << id << " não encontrado." << endl;
 }
 
 void exibirPercurso(const vector<Sapo>& sapos) {
