@@ -5,20 +5,23 @@
 
 using namespace std;
 
+//Menu principal
+
 int main(){
 
     vector<Sapo> sapos;
 
     int escolha = 0;
-    cout << "== Bem vindo ao gerenciador de corrida de sapos! ==\n";
+    cout << "== Bem vindo ao gerenciador de corrida de sapos! ==" << endl;
     do{
-        cout << "-----ESCOLHA UMA OPCAO-----\n";
-        cout << "1 - Registrar novo sapo\n";
-        cout << "2 - Customizar sapo\n";
-        cout << "3 - Verificar placar\n";
-        cout << "4 - Simular corrida\n";
-        cout << "5 - Verificar sapo\n";
-        cout << "6 - Sair\n";
+        cout << "-----ESCOLHA UMA OPCAO-----" << endl;
+        cout << "1 - Registrar novo sapo" << endl;
+        cout << "2 - Customizar sapo" << endl;
+        cout << "3 - Verificar placar" << endl;
+        cout << "4 - Simular corrida" << endl;
+        cout << "5 - Entrar em torneio" << endl;
+        cout << "6 - Verificar sapo" << endl;
+        cout << "7 - Sair\n";
         cin >> escolha;
 
         switch (escolha){
@@ -35,16 +38,19 @@ int main(){
             simularCorrida(sapos);
             break;
         case 5:
-            verificarSapo(sapos);
+            simularTorneio(sapos);
             break;
         case 6:
+            verificarSapo(sapos);
+            break;
+        case 7:
             cout << "Saindo...";
             break;
         default:
             cout << "Opcao invalida!\n";
             break;
         }
-    } while (escolha != 6);
+    } while (escolha != 7);
 
     return 0;
     
